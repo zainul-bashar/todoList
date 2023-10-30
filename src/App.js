@@ -1,23 +1,47 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [todoList, setTodoList] = useState([]);
+  const [inputData, setInputData] = useState('');
+  const [flag, setFlag] = useState(false);
+
+  const saveFnc = () => {
+
+    setTodoList([...todoList, inputData])
+    setInputData('')
+
+  }
+
+  const deleteFnc = (index) => {
+
+    const arr = todoList.filter((todo, inx) => inx !== index);
+    setTodoList(arr)
+   
+  }
+
+  const update = () => {
+
+    setFlag(true)
+  }
+
   return (
+    <div>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input className='inputTag' type='text' onChange={(e) => setInputData(e.target.value)} value={inputData}></input>
+      <button className='btn' onClick={saveFnc}>Add</button>
+    </div>
+      {
+        todoList.map((data, index) => (
+          <div className='todo' key={index}>
+            <h3>{data}</h3>
+            <button className='btn1' onClick={() => deleteFnc(index)}>Delete</button>
+            <button className='btn2' onClick={update}>Update</button>
+          </div>
+        ))
+      }
     </div>
   );
 }
